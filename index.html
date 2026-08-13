@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidushi Gupta — Cybersecurity</title>
+<style>
+  :root{
+    --bg: #0d1117;
+    --bg-raised: #121a24;
+    --line: #22303f;
+    --text: #e6edf3;
+    --text-dim: #8b98a5;
+    --accent: #7ee8b8;
+    --accent-dim: #3fa87e;
+    --mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.6; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 28px; }
+
+  header{ position:sticky; top:0; z-index:50; background:rgba(13,17,23,0.85); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:16px 0; max-width:920px; margin:0 auto; padding-left:28px; padding-right:28px; }
+  .logo{ font-family:var(--mono); font-weight:600; font-size:15px; color:var(--accent); }
+  .logo span{ color:var(--text-dim); }
+  .nav-links{ display:flex; gap:22px; list-style:none; flex-wrap:wrap; }
+  .nav-links a{ font-family:var(--mono); font-size:13px; color:var(--text-dim); transition:color .15s ease; }
+  .nav-links a:hover{ color:var(--accent); }
+
+  .hero{ padding:90px 0 70px; border-bottom:1px solid var(--line); }
+  .prompt-line{ font-family:var(--mono); color:var(--accent-dim); font-size:14px; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+  .prompt-line::before{ content:"$"; color:var(--accent); }
+  .cursor{ display:inline-block; width:8px; height:16px; background:var(--accent); animation:blink 1s step-end infinite; margin-left:2px; }
+  @keyframes blink{ 50%{ opacity:0; } }
+  h1{ font-size:clamp(34px,5vw,54px); font-weight:700; letter-spacing:-0.02em; margin-bottom:10px; }
+  .role{ font-family:var(--mono); color:var(--accent); font-size:clamp(16px,2.2vw,20px); margin-bottom:22px; }
+  .pitch{ max-width:600px; color:var(--text-dim); font-size:16px; margin-bottom:32px; }
+  .hero-links{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{ font-family:var(--mono); font-size:13px; padding:10px 18px; border-radius:6px; border:1px solid var(--line); transition:all .15s ease; }
+  .btn-primary{ background:var(--accent); color:#0d1117; font-weight:600; border-color:var(--accent); }
+  .btn-primary:hover{ background:var(--accent-dim); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
+
+  section{ padding:64px 0; border-bottom:1px solid var(--line); }
+  .eyebrow{ font-family:var(--mono); font-size:13px; color:var(--accent); margin-bottom:8px; display:flex; align-items:center; gap:10px; }
+  .eyebrow::before{ content:"//"; color:var(--accent-dim); }
+  h2{ font-size:26px; font-weight:700; margin-bottom:28px; letter-spacing:-0.01em; }
+
+  .about-text{ max-width:640px; color:var(--text-dim); font-size:16px; }
+  .about-text strong{ color:var(--text); font-weight:600; }
+
+  .skill-groups{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:22px; }
+  .skill-group{ background:var(--bg-raised); border:1px solid var(--line); border-radius:10px; padding:20px; }
+  .skill-group h3{ font-family:var(--mono); font-size:13px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px; }
+  .tag-list{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{ font-family:var(--mono); font-size:12.5px; background:#16202b; border:1px solid var(--line); color:var(--text); padding:5px 10px; border-radius:5px; }
+
+  .project{ background:var(--bg-raised); border:1px solid var(--line); border-radius:12px; padding:26px; margin-bottom:22px; }
+  .project-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:10px; }
+  .project-title{ font-size:19px; font-weight:700; }
+  .project-links{ display:flex; gap:14px; }
+  .project-links a{ font-family:var(--mono); font-size:12.5px; color:var(--accent); border-bottom:1px solid var(--accent-dim); }
+  .project-links a:hover{ color:var(--text); border-color:var(--text); }
+  .project-desc{ color:var(--text-dim); font-size:15px; margin-bottom:14px; }
+  .project-desc ul{ padding-left:18px; margin-top:6px; }
+  .project-desc li{ margin-bottom:4px; }
+  .project-stack{ display:flex; flex-wrap:wrap; gap:8px; }
+
+  .tl-item{ display:grid; grid-template-columns:150px 1fr; gap:20px; padding:18px 0; border-top:1px solid var(--line); }
+  .tl-item:first-of-type{ border-top:none; }
+  .tl-date{ font-family:var(--mono); font-size:13px; color:var(--accent-dim); }
+  .tl-role{ font-weight:700; font-size:16px; margin-bottom:4px; }
+  .tl-org{ color:var(--text-dim); font-size:14px; margin-bottom:8px; }
+  .tl-desc{ color:var(--text-dim); font-size:14.5px; }
+  .tl-desc ul{ padding-left:18px; }
+
+  .ach-list{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+  .ach-item{ background:var(--bg-raised); border:1px solid var(--line); border-radius:10px; padding:18px; font-size:14.5px; color:var(--text-dim); }
+  .ach-item strong{ color:var(--text); display:block; margin-bottom:4px; font-size:15px; }
+
+  .contact{ border-bottom:none; }
+  .contact-grid{ display:flex; flex-wrap:wrap; gap:14px; margin-top:8px; }
+  .contact-card{
+    font-family:var(--mono); font-size:13.5px;
+    background:var(--bg-raised); border:1px solid var(--line); border-radius:8px;
+    padding:12px 18px; display:flex; align-items:center; gap:10px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .contact-card:hover{ border-color:var(--accent); color:var(--accent); }
+
+  footer{ text-align:center; padding:30px 0; color:var(--text-dim); font-family:var(--mono); font-size:12.5px; }
+
+  @media (max-width:640px){
+    .nav-links{ display:none; }
+    .tl-item{ grid-template-columns:1fr; gap:4px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">vidushi<span>.dev</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#malware">malware analysis</a></li>
+      <li><a href="#patent">patent</a></li>
+      <li><a href="#education">education</a></li>
+      <li><a href="#achievements">achievements</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="prompt-line">whoami<span class="cursor"></span></div>
+    <h1>Vidushi Gupta</h1>
+    <div class="role">Final Year CSE Student · Cybersecurity</div>
+    <p class="pitch">
+      Final-year Computer Science student focused on the security layer of
+      systems — how they get attacked, and how they get defended. I work
+      across malware analysis, reverse engineering, and application/network
+      security, and I care more about how a system breaks than what it does
+      when it doesn't.
+    </p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-ghost" href="resume.pdf">Download Résumé</a>
+      <a class="btn btn-ghost" href="https://github.com/Vidushi2909" target="_blank">GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/vidushi-gupta-1149aa313/" target="_blank">LinkedIn</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="eyebrow">about</div>
+    <h2>A bit about me</h2>
+    <p class="about-text">
+      Final-year <strong>B.Tech Computer Science</strong> student at
+      <strong>GL Bajaj Institute of Technology &amp; Management, Greater Noida</strong>
+      (CGPA 8.5), focused on the <strong>security layer of systems</strong> —
+      how things get attacked, and how they get defended. Hands-on with
+      malware analysis, offensive security (TryHackMe), and Palo Alto
+      Networks certified in Cybersecurity Foundation and Network Security
+      Fundamentals. Also a published patent holder for an IoT-based computer
+      vision device, and a 4-year NCC cadet (Grade A, A/B/C certified).
+    </p>
+  </section>
+
+  <section id="skills">
+    <div class="eyebrow">skills</div>
+    <h2>What I work with</h2>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3>Languages</h3>
+        <div class="tag-list">
+          <span class="tag">C++</span>
+          <span class="tag">Python</span>
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>ML & Data</h3>
+        <div class="tag-list">
+          <span class="tag">scikit-learn</span>
+          <span class="tag">Hugging Face Transformers</span>
+          <span class="tag">Text Classification</span>
+          <span class="tag">Model Fine-tuning</span>
+          <span class="tag">Model Evaluation</span>
+          <span class="tag">Sentence Transformers</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Matplotlib</span>
+          <span class="tag">Seaborn</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Security & Networks</h3>
+        <div class="tag-list">
+          <span class="tag">Network Security</span>
+          <span class="tag">Cryptography Basics</span>
+          <span class="tag">AES Encryption</span>
+          <span class="tag">AI/ML Attack Surfaces</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Malware Analysis & RE</h3>
+        <div class="tag-list">
+          <span class="tag">PEStudio</span>
+          <span class="tag">Cutter</span>
+          <span class="tag">Process Hacker</span>
+          <span class="tag">Procmon</span>
+          <span class="tag">TCPView</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Tools & Concepts</h3>
+        <div class="tag-list">
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">VS Code</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">DSA</span>
+          <span class="tag">OOP</span>
+          <span class="tag">Deep Learning</span>
+          <span class="tag">Computer Networks</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="eyebrow">projects</div>
+    <h2>Things I've built</h2>
+
+    <div class="project">
+      <div class="project-top">
+        <div class="project-title">PromptGuard — Prompt Injection Detector</div>
+        <div class="project-links">
+          <a href="https://promptguard-cqrysuotmnrvpmfwokv7m5.streamlit.app/" target="_blank">Live Demo</a>
+          <a href="https://github.com/Vidushi2909/Promptguard" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <div class="project-desc">
+        Defensive tooling against an emerging LLM attack vector — detecting prompt injection before it reaches the model.
+        <ul>
+          <li>Fine-tuned a DistilBERT transformer for binary prompt injection detection using the Hugging Face Transformers ecosystem, achieving 98.5% accuracy</li>
+          <li>Benchmarked classical ML, embedding-based, and transformer-based approaches; evaluated robustness across six categories of adversarial prompt injection attacks and improved performance through iterative retraining</li>
+          <li>Built an interactive Streamlit app with configurable detection thresholds and PostgreSQL-backed prediction logging for real-time inference</li>
+        </ul>
+      </div>
+      <div class="project-stack">
+        <span class="tag">Python</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag">Hugging Face Transformers</span>
+        <span class="tag">Streamlit</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <div class="project-title">Secure Web Application Development</div>
+        <div class="project-links"><a href="https://github.com/Vidushi2909/Secure-Web-Application_Major-Project" target="_blank">GitHub</a></div>
+      </div>
+      <div class="project-desc">
+        A web application built with security as a first-class concern.
+        <ul>
+          <li>Implemented user authentication with login/logout, input validation, and password hashing via bcrypt</li>
+        </ul>
+      </div>
+      <div class="project-stack">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">SQLite</span>
+        <span class="tag">bcrypt</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MALWARE ANALYSIS -->
+  <section id="malware">
+    <div class="eyebrow">hands-on training</div>
+    <h2>Malware analysis & reverse engineering</h2>
+    <div class="project">
+      <div class="project-top">
+        <div class="project-title">Static & Dynamic Malware Analysis Labs</div>
+      </div>
+      <div class="project-desc">
+        Hands-on malware triage and reverse engineering, via HuskyHacks' reverse engineering / malware analysis training.
+        <ul>
+          <li>Performed static analysis with PEStudio to inspect suspicious binaries — imports, strings, and packing indicators — before execution</li>
+          <li>Used Cutter for disassembly and control-flow analysis to understand sample behavior at the instruction level</li>
+          <li>Ran dynamic analysis with Process Hacker, Procmon, and TCPView to observe live process behavior, file/registry activity, and network callbacks in a sandboxed environment</li>
+        </ul>
+      </div>
+      <div class="project-stack">
+        <span class="tag">PEStudio</span>
+        <span class="tag">Cutter</span>
+        <span class="tag">Process Hacker</span>
+        <span class="tag">Procmon</span>
+        <span class="tag">TCPView</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="patent">
+    <div class="eyebrow">patent & publication</div>
+    <h2>Smart Stitch Counter</h2>
+    <div class="tl-item">
+      <div class="tl-date">Dec 2025</div>
+      <div>
+        <div class="tl-role">Published Patent — Indian Patent Office</div>
+        <div class="tl-org">Application No. 202511109349 · Publication 52/2025</div>
+        <div class="tl-desc">
+          <ul>
+            <li>Published a patent for an AI-assisted crochet stitch counting system based on computer vision and machine learning</li>
+            <li>Proposed an adaptive learning approach to recognize custom stitch patterns from user demonstrations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="eyebrow">education</div>
+    <h2>Education</h2>
+
+    <div class="tl-item">
+      <div class="tl-date">2023 – 2027</div>
+      <div>
+        <div class="tl-role">B.Tech, Computer Science & Engineering</div>
+        <div class="tl-org">GL Bajaj Institute of Technology & Management, Greater Noida · CGPA: 8.5 · Till 7th semester</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2022</div>
+      <div>
+        <div class="tl-role">Class XII, CBSE</div>
+        <div class="tl-org">Delhi Public School, Greater Noida · 93%</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2020</div>
+      <div>
+        <div class="tl-role">Class X, CBSE</div>
+        <div class="tl-org">Delhi Public School, Greater Noida · 94.6%</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements">
+    <div class="eyebrow">certifications & achievements</div>
+    <h2>Certifications & activities</h2>
+    <div class="ach-list">
+      <div class="ach-item"><strong>TryHackMe — Active Learner</strong>Ongoing rooms and challenges in offensive security & network fundamentals</div>
+      <div class="ach-item"><strong>Reverse Engineering & Malware Analysis</strong>HuskyHacks Lab · static/dynamic analysis training</div>
+      <div class="ach-item"><strong>Cybersecurity Foundation</strong>Palo Alto Networks Cybersecurity Academy · 2026</div>
+      <div class="ach-item"><strong>Network Security Fundamentals</strong>Palo Alto Networks Cybersecurity Academy · 2026</div>
+      <div class="ach-item"><strong>Introduction to IoT — 84%</strong>NPTEL · 2025</div>
+      <div class="ach-item"><strong>NCC A, B, C Certificates — Grade A</strong>National Cadet Corps · 2019–2023, certified 2023</div>
+      <div class="ach-item"><strong>DEVTrails 2026 Hackathon</strong>Qualified for SOAR phase, Diamond tier ranking — built GigGuard, a parametric insurance concept for gig workers</div>
+      <div class="ach-item"><strong>Women in Cybersecurity Session</strong>Industry interaction with senior leaders at Fidelity International · 2025</div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="eyebrow">contact</div>
+    <h2>Let's talk</h2>
+    <p class="about-text">
+      Open to full-time roles and internships in cybersecurity, malware
+      analysis, and application/network security. Reach out — I usually
+      reply within a day.
+    </p>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:vdkg2005@gmail.com">✉ vdkg2005@gmail.com</a>
+      <a class="contact-card" href="tel:+918882125926">☎ +91 8882125926</a>
+      <a class="contact-card" href="https://www.linkedin.com/in/vidushi-gupta-1149aa313/" target="_blank">in/ LinkedIn</a>
+      <a class="contact-card" href="https://github.com/Vidushi2909" target="_blank">⌥ GitHub</a>
+      <a class="contact-card" href="#">📍 Greater Noida, India</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  built with <span style="color:var(--accent)">&lt;/&gt;</span> by Vidushi Gupta · 2026
+</footer>
+
+</body>
+</html>
